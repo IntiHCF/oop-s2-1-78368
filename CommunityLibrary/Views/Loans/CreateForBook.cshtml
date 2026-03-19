@@ -1,0 +1,19 @@
+﻿@{
+    var book = ViewData["Book"] as CommunityLibrary.Models.Book;
+}
+
+<h2>Create Loan for @book.Title</h2>
+
+<form asp-action="CreateForBook" method="post">
+    <input type="hidden" name="bookId" value="@book.Id" />
+
+    <label for="memberId">Select Member:</label>
+    <select name="memberId" required>
+        @foreach (var member in ViewData["MemberId"] as SelectList)
+        {
+            <option value="@member.Value">@member.Text</option>
+        }
+    </select>
+
+    <button type="submit">Create Loan</button>
+</form>

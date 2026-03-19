@@ -1,0 +1,70 @@
+﻿@model IEnumerable<CommunityLibrary.Models.Book>
+
+@{
+    ViewData["Title"] = "Books";
+}
+
+<h1>Books</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>Title</th>
+            <th>Author</th>
+            <th>Isbn</th>
+            <th>Loan</th>
+            <th>Category</th>
+            <th>Is Available</th>
+            <th>Actions</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <!-- Make title clickable to go to loan page -->
+                <td>
+                    @if (item.IsAvailable)
+                    {
+                        <a asp-controller="Loans" asp-action="CreateForBook" asp-route-bookId="@item.Id">
+                            @Html.DisplayFor(modelItem => item.Title)
+                        </a>
+                    }
+                    else
+                    {
+                        @Html.DisplayFor(modelItem => item.Title)
+                    }
+                </td>
+
+                <td>@Html.DisplayFor(modelItem => item.Author)</td>
+                <td>@Html.DisplayFor(modelItem => item.Isbn)</td>
+
+                <!-- Loan column: link only if available -->
+                <td>
+                    @if (item.IsAvailable)
+                    {
+                        <a asp-controller="Loans" asp-action="CreateForBook" asp-route-bookId="@item.Id">Loan</a>
+                    }
+                    else
+                    {
+                        <span>Loaned</span>
+                    }
+                </td>
+
+                <td>@Html.DisplayFor(modelItem => item.Category)</td>
+                <td>@Html.DisplayFor(modelItem => item.IsAvailable)</td>
+
+                <!-- Actions -->
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.Id">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.Id">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.Id">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
